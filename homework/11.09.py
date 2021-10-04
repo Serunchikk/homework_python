@@ -1,22 +1,52 @@
-def show(func):
-    def new_func(*args, **kwargs):
-        print('Running function: ', func.__name__)
-        print('Positional arguments are: ', args)
-        print('Keyword arguments are: ', kwargs)
-        
-    return new_func
-
-@show
-def initials_PRO(names):
-    b = len(names)
-    new_names = []
-    for i in range(b):
-        a,b,c= names[i].split(' ')
-        a +=' ' + b[0]+ ' ' + c[0]
-        new_names.append(a)
-    return new_names
+import string
+from random import choice
 
 
-spisok=['Ковтун Степан Ильич','Яковлева Софья Вячеславовна','Меняйло Екатерина Андреевна','загребин керил максимович','герман стрыжак андреевич']
+def rand_str(length):
+    letters = list(string.ascii_letters)
+    s = ''
+    for _ in range(length):
+        s += choice(letters)
+    return s
 
-print(initials_PRO(spisok))
+
+def score_letters(str):
+    upper_count = 0
+    lower_count = 0
+    for i in str:
+        if i.isupper():
+            upper_count += 1
+        else:
+            lower_count += 1
+    if upper_count > lower_count:
+        return 1
+    elif upper_count == lower_count:
+        return 2
+    else:
+        return 0
+
+
+def array_of_strings(length, count_strings):
+    return [rand_str(length) for _ in range(count_strings)]
+
+
+def ratio(array):
+    big_letters = 0
+    small_letters = 0
+    equal = 0
+    for x in array:
+        if score_letters(x) == 1:
+            big_letters += 1
+        elif score_letters(x) == 0:
+            small_letters += 1
+        else:
+            equal += 1
+    ratio_big = (big_letters / len(array)) * 100
+    ratio_small = (small_letters / len(array)) * 100
+    ratio_equal = (equal / len(array)) * 100
+    s = f'В этой строке {round(ratio_big)}% строк где заглавных букв больше {round(ratio_small)}% \
+строк где маленьких букв больше {round(ratio_equal)}% строк где и маленьких и больших букв поровну'
+    return s
+
+
+print(ratio(array_of_strings(5, 9)))
