@@ -1,10 +1,7 @@
-def gen_names(name, num):
-    i = 1
-    while i < num:
-        yield name
-        i += 1
-
-
-ranger = gen_names('Stepa', 50)
-names = [x for x in ranger]
-print(names)
+def show(func):
+    def new_func(*args, **kwargs):
+        print('Running function: ', func.__name__)
+        print('Positional arguments are: ', args)
+        print('Keyword arguments are: ', kwargs)
+        
+    return new_func
