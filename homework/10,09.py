@@ -1,21 +1,30 @@
-def show(func):
-    def new_func(*args, **kwargs):
+import random
+import string
+
+names=[]
+
+def decorator(func):
+    def inner(*args, **kwargs):
         print('Running function: ', func.__name__)
         print('Positional arguments are: ', args)
         print('Keyword arguments are: ', kwargs)
-        
-    return new_func
-@show
-def initials_PRO(names):
-    b = len(names)
-    new_names = []
-    for i in range(b):
-        a,b,c= names[i].split(' ')
-        a +=' ' + b[0]+ ' ' + c[0]
-        new_names.append(a)
-    return new_names
+        result = func(*args, **kwargs)
+        print('Result: ', result)
+        return result
+    return inner
 
 
-spisok=['Ковтун Степан Ильич ','Меняйло Екатерина Андреевна','Бухтиничева Ксения Геннадьвна','Яцына Леонид Сергеевич','Бабков Никита Алексеевич']
+def gen_names(count_names):
+    for i in range(count_names):
+        name = ''
+        name = chr(random.randint(65, 90))
+        rnd_num = random.randint(3, 10)
+        for u in range(rnd_num):
+            name += chr(random.randint(97, 122))
+        names.append(name)
+    return names
 
-print(initials_PRO(spisok))
+print('Введите количество имен:')
+n = int(input())
+b = decorator(gen_names)
+print(b(n))
